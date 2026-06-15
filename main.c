@@ -9,8 +9,23 @@
 #include <string.h> 
 
 
-// define a function for formatting the flags. 
+// define the help function 
+void help() {
+    // we shall name the command to be caesar-1
+    puts("Help : caesar-1\n");
+    puts("Flags - ");
+    puts("        --help : shows this help section.");
+    puts("        --enc  : encrypts the given plaintext.");
+    puts("        --dec  : decrypts the given chipertext.\n");
+    puts("Flag  : enc");
+    puts("        - should be followed immediately by a key followed by the plaintext.");
+    puts("        - usage '--enc <key> <plaintext>'\n");
+    puts("Flag  : dec");
+    puts("        - should be followed immediately by a key followed by the chipertext.");
+    puts("        - usage '--dec <key> <chipertext>'\n");
+}
 
+// define a function for formatting the flags. 
 int parse_flags(char *flag) {
     // for comparing the strings, we use strcmp.
     // the signature of the function is 
@@ -134,15 +149,15 @@ int main(int argc, char *argv[argc + 1]) {
     // note that the first argument will take precidence.
     // if there is only one argument provided, parse_flags and check for the return value to be 0; if it is 0, the flag is help flag, and then proceed to show help.
     if (argc == 1) {
-        puts("No arguments provided...(see help)");
+        puts("No arguments provided...(see help)\n");
+        help();
         return EXIT_FAILURE;
-        // call the help here.
     // else, if only one argument is provided, and it equals --help
     } else if (argc == 2 && parse_flags(argv[1]) == 0) {
-        puts("Help Section");
         // call the help here.
+        help();
     } else if (argc == 4 && parse_flags(argv[1]) == 1) {
-        puts("Encryption Section");
+        puts("Encryption\n");
         // check if the second arg is an int.
         // we use atoi for doing that.
         int key = atoi(argv[2]);
@@ -153,20 +168,22 @@ int main(int argc, char *argv[argc + 1]) {
             puts("Encryption arguments mis-positioned...(see help)");
             return EXIT_FAILURE;
         } else {
+            printf("Plaintext : %s\n", argv[3]);
             encrypt(argv[3], key);
         }
-        // we shall now do the encryption; 
     } else if (argc == 4 && parse_flags(argv[1]) == 2) {
-        puts("Decryption Section");
+        puts("Decryption\n");
         int key = atoi(argv[2]);
         if (key == 0) {
             puts("Decryption arguments mis-positioned...(see help)");
             return EXIT_FAILURE;
         } else {
+            printf("Chipertext : %s\n", argv[3]);
             decrypt(argv[3], key);
         }
     } else {
-        puts("Invalid usage of CLI...(see help)");
+        puts("Invalid usage of CLI...(see help)\n");
+        help();
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
