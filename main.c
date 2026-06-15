@@ -68,6 +68,40 @@ int encrypt(char *plaintext, int key) {
     return 0;
 }
 
+//--------------------------------------- decrypt ---------------------------------------
+// create a function for decryption.
+int decrypt(char *chipertext, int key) {
+    printf("Plaintext : ");
+    for (int i = 0; chipertext[i] != '\0'; i++) {
+        char c = chipertext[i];
+        // normalise the char.
+        char x = 125;  
+        // easy diff of error here. 
+        // case 1 : when it is between A and Z.
+        if (65 <= c && c <= 90) {
+            x = c - 'A';
+            char p = ((x - key) % 26) + 'A';
+            printf("%c", p);
+        // case 2 : when it is between a and z.
+        } else if (97 <= c && c <= 122) {
+            x = c - 'a';
+            char p = ((x - key) % 26) + 'a';
+            printf("%c", p);
+        // case 3 : when it is between 0 and 9; (for numbers)
+        } else if (48 <= c && c <= 56) {
+            x = c - '0';
+            char p = ((x - key) % 10) + '0';
+            printf("%c", p);
+        } else {
+            printf("%c", c);
+        }
+
+    }
+    printf("\nkey : %d\n", key);
+    return 0;
+}
+
+
 
 //--------------------------------------- main program ----------------------------------
 int main(int argc, char *argv[argc + 1]) {
@@ -104,6 +138,13 @@ int main(int argc, char *argv[argc + 1]) {
         // we shall now do the encryption; 
     } else if (argc == 4 && parse_flags(argv[1]) == 2) {
         puts("Decryption Section");
+        int key = atoi(argv[2]);
+        if (key == 0) {
+            puts("Decryption arguments mis-positioned...(see help)");
+            return EXIT_FAILURE;
+        } else {
+            decrypt(argv[3], key);
+        }
     } else {
         puts("Invalid usage of CLI...(see help)");
         return EXIT_FAILURE;
