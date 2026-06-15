@@ -13,13 +13,16 @@
 void help() {
     // we shall name the command to be caesar-1
     puts("Help : caesar-1\n");
+    // the help section for individual flags as a whole along with description.
     puts("Flags - ");
     puts("        --help : shows this help section.");
     puts("        --enc  : encrypts the given plaintext.");
     puts("        --dec  : decrypts the given chipertext.\n");
+    // the help section for the encryption flags.
     puts("Flag  : enc");
     puts("        - should be followed immediately by a key followed by the plaintext.");
     puts("        - usage '--enc <key> <plaintext>'\n");
+    // the help section for the decryption flags. 
     puts("Flag  : dec");
     puts("        - should be followed immediately by a key followed by the chipertext.");
     puts("        - usage '--dec <key> <chipertext>'\n");
@@ -181,7 +184,11 @@ int main(int argc, char *argv[argc + 1]) {
             printf("Chipertext : %s\n", argv[3]);
             decrypt(argv[3], key);
         }
-    } else {
+    } else if (argc > 4){
+        puts("More than required arguments provided...(see help)");
+        puts("Maximum allowed arguments is 3.");
+        return EXIT_FAILURE;
+    } else{
         puts("Invalid usage of CLI...(see help)\n");
         help();
         return EXIT_FAILURE;
@@ -189,3 +196,5 @@ int main(int argc, char *argv[argc + 1]) {
     return EXIT_SUCCESS;
 }
 
+
+//--------------------------------------EOF----------------------------------------------
