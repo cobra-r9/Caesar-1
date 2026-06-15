@@ -89,4 +89,4 @@ p = 'A' + 'n' (or) 'a' + n
 ```
 
 
-**And yay, we have just completed our first chiper. Good to go. **
+**And yay, we have just completed our first chiper. Good to go.**
