@@ -88,5 +88,8 @@ n = (x - k) mod 26
 p = 'A' + 'n' (or) 'a' + n 
 ```
 
-
+- Similarly, we can also do this for the numbers too. 
 **And yay, we have just completed our first chiper. Good to go.**
+
+>[!IMPORTANT]
+> But this chiper, unlike the original caesar chiper, runs through both the lowercase and uppercase alphabets as well as the numbers 0 to 9, and individually does a caesar chiper on them instead of one ascii chart as a whole. There can also be a pre determined set of printable characters from which we can choose to shift, but ascii is more straight forward to establish. **This chiper is a subset of affine chiper.**
