@@ -31,11 +31,41 @@ int parse_flags(char *flag) {
 //--------------------------------------- encrypt ---------------------------------------
 // create a function for encryption.
 // this indeed is just doing the copy of the data, no pointers needed to modify the data.
-int encryption(char *plaintext, int key) {
+int encrypt(char *plaintext, int key) {
+    printf("Chipertext : ");
     for (int i = 0; plaintext[i] != '\0'; i++) {
-        printf("%c", plaintext[i]);
+        char p = plaintext[i];
+        // printf("%c", p);
+        // works clean till now. note there is no null terminator here. 
+        // we don't want to store stuff, just output to stdout. so I have zero formatting headaches.
+        // here comes the modulo arithemtic.
+        // normalise the char.
+        char n = 125; // initialise it with garbage looking ascii.
+        // easy diff of error here. 
+        // case 1 : when it is between A and Z.
+        if (65 <= p && p <= 90) {
+            n = p - 'A';
+            char c = ((n + key) % 26) + 'A';
+            printf("%c", c);
+        // case 2 : when it is between a and z.
+        } else if (97 <= p && p <= 122) {
+            n = p - 'a';
+            char c = ((n + key) % 26) + 'a';
+            printf("%c", c);
+        // case 3 : when it is between 0 and 9; (for numbers)
+        } else if (48 <= p && p <= 56) {
+            n = p - '0';
+            // here we use mod 10 because the numbers are 0 to 9; 10 numbers. 
+            // 012 to shift key = 1 will be 123;
+            char c = ((n + key) % 10) + '0';
+            printf("%c", c);
+        } else {
+            printf("%c", p);
+        }
+
     }
-    printf("\n%d\n", key);
+    printf("\nkey : %d\n", key);
+    return 0;
 }
 
 
@@ -66,8 +96,10 @@ int main(int argc, char *argv[argc + 1]) {
         // passed is "0"; in our encryption case, "0" key means no ecryption which is redundant.
         // so even if we are gonna pass string "0", we should not care about it. 
         if (key == 0) {
-            puts("Encryption arguments mis-positioned.");
+            puts("Encryption arguments mis-positioned...(see help)");
             return EXIT_FAILURE;
+        } else {
+            encrypt(argv[3], key);
         }
         // we shall now do the encryption; 
     } else if (argc == 4 && parse_flags(argv[1]) == 2) {
