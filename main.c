@@ -28,7 +28,27 @@ int parse_flags(char *flag) {
     }
 }
 
+// create a helper function for mathematical mod 
+int mod(int a, int b) {
+    int r = a % b;
+    // if r less than 0; then return (r + b) % b, else return r; 
+    // ternary operator in C. lol .
+    return r < 0 ? (r + b) % b : r;
+}
+
+
 //--------------------------------------- encrypt ---------------------------------------
+// -------------------------------------------------------------------------------------------[doubt 1]
+// but why is the mod not working properly? Is there a bug? Hu?
+// yes exactly. The mod is also capable of returning negative values. 
+// C's % mod is not exactly the same as arithemtic mod which always returns +ve values. 
+// when n + key or n - key is less than 0, then mod returns a negative value. 
+// to fix this; we need to do a dual modulo which is when n - key : n < key, it becomes negative. 
+// for example : (2 - 4) mod 26 will be -2 % 26 which is -2; 
+// we need to + 26 with to get 24 and then mod it again with 26 to get 24; that is 
+// mod = ((a % n) + n) % n 
+
+
 // create a function for encryption.
 // this indeed is just doing the copy of the data, no pointers needed to modify the data.
 int encrypt(char *plaintext, int key) {
@@ -45,19 +65,19 @@ int encrypt(char *plaintext, int key) {
         // case 1 : when it is between A and Z.
         if (65 <= p && p <= 90) {
             n = p - 'A';
-            char c = ((n + key) % 26) + 'A';
+            char c = mod(n + key, 26) + 'A';
             printf("%c", c);
         // case 2 : when it is between a and z.
         } else if (97 <= p && p <= 122) {
             n = p - 'a';
-            char c = ((n + key) % 26) + 'a';
+            char c = mod(n + key, 26) + 'a';
             printf("%c", c);
         // case 3 : when it is between 0 and 9; (for numbers)
         } else if (48 <= p && p <= 56) {
             n = p - '0';
             // here we use mod 10 because the numbers are 0 to 9; 10 numbers. 
             // 012 to shift key = 1 will be 123;
-            char c = ((n + key) % 10) + '0';
+            char c = mod(n + key, 10) + '0';
             printf("%c", c);
         } else {
             printf("%c", p);
@@ -80,17 +100,17 @@ int decrypt(char *chipertext, int key) {
         // case 1 : when it is between A and Z.
         if (65 <= c && c <= 90) {
             x = c - 'A';
-            char p = ((x - key) % 26) + 'A';
+            char p = mod(x - key, 26) + 'A';
             printf("%c", p);
         // case 2 : when it is between a and z.
         } else if (97 <= c && c <= 122) {
             x = c - 'a';
-            char p = ((x - key) % 26) + 'a';
+            char p = mod(x - key, 26) + 'a';
             printf("%c", p);
         // case 3 : when it is between 0 and 9; (for numbers)
-        } else if (48 <= c && c <= 56) {
+        } else if (48 <= c && c <= 57) {
             x = c - '0';
-            char p = ((x - key) % 10) + '0';
+            char p = mod(x - key, 10) + '0';
             printf("%c", p);
         } else {
             printf("%c", c);
