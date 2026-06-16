@@ -91,7 +91,7 @@ int encrypt(char *plaintext, int key) {
             char c = mod(n + key, 26) + 'a';
             printf("%c", c);
         // case 3 : when it is between 0 and 9; (for numbers)
-        } else if (48 <= p && p <= 56) {
+        } else if (48 <= p && p <= 57) {
             n = p - '0';
             // here we use mod 10 because the numbers are 0 to 9; 10 numbers. 
             // 012 to shift key = 1 will be 123;
